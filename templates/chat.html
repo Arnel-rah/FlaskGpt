@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clone Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; }
+        .chat-box { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; }
+        .message { margin-bottom: 10px; }
+        .username { font-weight: bold; color: blue; }
+    </style>
+</head>
+<body>
+    <h1>Mini Chat</h1>
+    <div class="chat-box">
+        {% for msg in messages %}
+            <div class="message">
+                <span class="username">{{ msg.username }}:</span> {{ msg.text }}
+            </div>
+        {% endfor %}
+    </div>
+    <form method="POST" action="{{ url_for('send') }}">
+        <input type="text" name="username" placeholder="Your name" required>
+        <input type="text" name="text" placeholder="Type a message..." required>
+        <button type="submit">Send</button>
+    </form>
+    <a href="{{ url_for('clear') }}">Clear chat</a>
+</body>
+</html>
