@@ -2,23 +2,23 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-todos = []
+messages = [] 
 
 @app.route("/")
 def index():
-    return render_template("index.html", todos=todos)
+    return render_template("chat.html", messages=messages)
 
-@app.route("/add", methods=["POST"])
-def add():
-    task = request.form.get("task")
-    if task: 
-        todos.append(task)
+@app.route("/send", methods=["POST"])
+def send():
+    username = request.form.get("username")
+    text = request.form.get("text")
+    if username and text:
+        messages.append({"username": username, "text": text})
     return redirect(url_for("index"))
 
-@app.route("/delete/<int:task_id>")
-def delete(task_id):
-    if 0 <= task_id < len(todos):
-        todos.pop(task_id)
+@app.route("/clear")
+def clear():
+    messages.clear()
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
